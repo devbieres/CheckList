@@ -1,0 +1,11 @@
+action:
+   continue: Continuer
+user:
+   username: login
+   password: mot de passe
+security:
+   registration:
+      link: Créer un compte
+      level: Niveau
+      confirmed: Félicitations %username% !!
+      confirmed_activation: Votre compte est maintenant activé.

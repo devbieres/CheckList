@@ -1,0 +1,10 @@
+services:
+   dvb.ckl.skeleton.item:
+       class: DevBieres\CheckList\BaseBundle\Services\SkeletonItemService
+       calls:
+          - [ setEM, [ @doctrine.orm.entity_manager ] ]
+   dvb.ckl.skeleton:
+       class: DevBieres\CheckList\BaseBundle\Services\SkeletonService
+       calls:
+          - [ setEM, [ @doctrine.orm.entity_manager ] ]
+

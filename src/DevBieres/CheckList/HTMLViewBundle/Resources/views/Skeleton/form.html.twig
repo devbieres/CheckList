@@ -1,0 +1,29 @@
+{# Param #}
+{% if close is not defined %} {% set close = 1 %} {%endif%}
+
+{# Form #}
+{{ form_start(form, { 'attr' : { 'role' : 'form' , 'id':'form_skeleton_new' } }) }}
+    {% if not form.vars.valid %}  
+       <p class="alert alert-danger" > {{ 'common.form_error'|trans }} </p>
+    {% endif %}
+    <div class="form-group" >
+         {{form_label(form.label) }}
+         {{form_widget(form.label, {'attr': {'class': 'form-control' } }) }}
+         {% if not form.label.vars.valid %}
+             <p class="help-block alert-warning" >{{form_errors(form.label) }} </p>
+         {% endif %}
+    </div>
+    <div class="form-group" >
+         {{form_label(form.description) }}
+         {{form_widget(form.description, {'attr': {'class': 'form-control' } }) }}
+             {{form_errors(form.description) }} 
+    </div>
+    <div class="text-right" >
+        <button type="submit" class="btn btn-primary" > {{ 'action.save'|trans }} </button>
+        {% if close %}
+           <a id="close" class="btn btn-default" > {{ 'action.close'|trans }} </a>
+        {% else %}
+           <a class="btn btn-default" href="{{ path('main') }}" > {{ 'action.back_to_list'|trans }} </a>
+        {% endif %}
+    </div>
+{{ form_end(form) }}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link href="{{ asset("./bundles/devbierescommon/lib/bootstrap/css/bootstrap.css") }}" rel="stylesheet">
+        <link href="{{ asset("./bundles/devbierescommon/lib/font-awesome/css/font-awesome.min.css") }}" rel="stylesheet">
+        {% block stylesheets %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        <header class="page-header" >
+            {% block header %}
+                   <ul class="nav pull-right" >
+                      {% if not app.user is null %}
+                       <li> <a href="{{ path('fos_user_security_logout') }}" > {{ 'login.logout' | trans }} </a> </li>
+                      {% endif %}
+                   </ul>
+              <h2> 
+                   Check List
+              </h2>
+             {% endblock %}
+        </header>
+        <div class="container" >
+        {% block body %}{% endblock %}
+        </div>
+    </body>
+    <script src="{{ asset("./bundles/devbierescommon/lib/jquery/jquery-2.1.1.min.js") }}" ></script>
+    <script src="{{ asset("./bundles/devbierescommon/lib/bootstrap/js/bootstrap.min.js") }}" ></script>
+    {% block js %}{% endblock %}
+
+</html>

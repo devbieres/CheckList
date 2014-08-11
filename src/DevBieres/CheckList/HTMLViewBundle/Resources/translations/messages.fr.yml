@@ -1,0 +1,11 @@
+common:
+   form_error: Une ou des erreurs sont présentes dans le formulaire.
+main:
+   definition:
+      title: Définitions
+skeleton:
+   list: Action(s)
+   empty_list: Aucune squelette. A vous de jouer !
+skeleton_item:
+   empty_list: Vide ... c'est triste ...
+

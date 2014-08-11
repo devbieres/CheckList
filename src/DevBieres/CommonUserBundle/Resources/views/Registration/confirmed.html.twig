@@ -1,0 +1,11 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+    <div class="jumbotron" >
+       <h1>{{ 'security.registration.confirmed'|trans({'%username%': user.username}) }}</h1>
+       <p> {{ 'security.registration.confirmed_activation'|trans }} </p>
+       <a href="{{ path('main') }}" class="btn btn-primary btn-lg" role="button" > {{ 'action.continue'|trans }} </a>
+   </div>
+{% endblock fos_user_content %}

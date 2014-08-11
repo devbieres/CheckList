@@ -1,0 +1,20 @@
+<table class="table table-hover table-striped table-bordered" >
+    {% for i in list %}
+        <tr>
+            <td> 
+                <h4>
+                    {{ i }} <br/>
+                    <small> {{ i.description }} </small>
+                </h4>
+            </td>
+            <td class="three-actions" >
+                 <a class="btn btn-default" href="{{ path('skeleton_edit', { 'id': i.id }) }}" > {{ 'edit'|ico }} </a>
+                 <button class="btn btn-default" 
+                    onClick='confirm("{{ 'message.confirm.delete'|trans }}", "{{ path('skeleton_delete', { 'id' : i.id } ) }}");' > {{ 'trash-o'|ico }} </button>
+                 <button class="btn btn-primary" > {{ 'play'|ico }} </button>
+            </td>
+        </tr>
+    {% else %}
+        <tr><p class="lead"> {{ 'skeleton.empty_list'|trans }} </p></tr>
+    {% endfor %}
+</table>

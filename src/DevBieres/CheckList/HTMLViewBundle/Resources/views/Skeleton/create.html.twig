@@ -1,0 +1,14 @@
+{% extends 'DevBieresCheckListHTMLViewBundle::layout.html.twig' %}
+
+{% block body %}
+<div class="row">
+   <div class="col-md-12" >
+        <h2> 
+            {{ 'action.newe'|trans }}
+        </h2>
+            {{ include('DevBieresCheckListHTMLViewBundle:Skeleton:form.html.twig', { 'form' : form, 'close': 0 }) }}
+   </div> {# La zone centrale #}
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,7 @@
+services:
+   dvb.user.form.registration.type:
+      class: DevBieres\CommonUserBundle\Form\Type\RegistrationFormType
+      arguments: [%fos_user.model.user.class%]
+      tags:
+         - { name: form.type, alias: devbieres_user_registration }
+
