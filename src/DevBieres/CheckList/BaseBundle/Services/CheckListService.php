@@ -25,34 +25,67 @@ use DevBieres\CommonBundle\Services\EntityService as BaseService;
 /**
  * Service class for the check list definition
  */
-class SkeletonService extends BaseService
+class CheckListService extends BaseService
 {
 
 	/**
      * FullName
 	 */
-    protected function getFullEntityName() { return 'DevBieres\CheckList\BaseBundle\Entity\Skeleton'; }
+    protected function getFullEntityName() { return 'DevBieres\CheckList\BaseBundle\Entity\CheckList'; }
 
+	
 	/**
-	 * Return all definition for an user
-	 * @param User $user
-	 * @return Collection or null (if user is null)
+	 * Service for the definition (skeleton) of check list
 	 */
-	public function findAllByUser($user) {
-			if($user) {
-			   // Direct call to the repo
-			   return $this->getRepo()->findAllByUser($user->getId());
-			} else { return null; }
-	} // /findAllByUser
+	private $srvDefinition;
+	public function getDefinitionService() { return $this->srvDefinition; }
+	public function setDefinitionService($value) { $this->srvDefinition = $value; }
 
 
 	/**
-	 * Return the form for a creation
+	 * Create (save) and return a new check list created from the skeleton in parameters
 	 */
-	public function getForm() {
-			return new \DevBieres\CheckList\BaseBundle\Form\NewSkeletonType();
-	}
+	public function createFromSkeleton($skeleton) {
+			// Create a new CheckList
+			$ck = $this->getNewEntity();
+
+			// Copy
+			$ck->setLabel($skeleton->getLabel());
+			$ck->setDescription($skeleton->getDescription());
+			$ck->setOwner($skeleton->getOwner());
+			$ck->setSkeleton($skeleton);
+
+			// Children
+			$ck = $this->copyItems($ck, $skeleton);
+
+			// Save
+			$this->save($ck);
+
+	} // /createFromSkeleton
 
 
-} // /SkeletonService
+	/**
+	 * Copy items froms skeletons to cheklist
+	 */
+	protected function copyItems($ck, $skeleton) {
+			// Loop
+			foreach($skeletons->getItems() as $i) {
+					// New Entity
+					$c = $this->getNewEntity();
+					$c->setParent($ck);
+					$c->setLabel($i->getLabel());
+					$c->setDescription($i->getDescription());
+					$c->setOwner($i->getOwner());
+
+					// Items
+					$c = $this->copyItems($c, $i);
+
+			} // end loop
+
+			// return
+			return $ck;
+
+	} // /copyItems
+
+}
 

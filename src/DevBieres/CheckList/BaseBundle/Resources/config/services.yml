@@ -1,4 +1,9 @@
 services:
+   dvb.ckl.checklist:
+       class: DevBieres\CheckList\BaseBundle\Services\CheckListService
+       calls:
+          - [ setEM, [ @doctrine.orm.entity_manager ] ]
+          - [ setDefinitionService, [ @dvb.ckl.skeleton ] ] 
    dvb.ckl.skeleton.item:
        class: DevBieres\CheckList\BaseBundle\Services\SkeletonItemService
        calls:

@@ -38,8 +38,8 @@ class SkeletonItemService extends BaseService
 	 * @param int $id
 	 * @return Collection or null (if user is null)
 	 */
-	public function findAllBySkeletonId($id) {
-	   return $this->getRepo()->findAllBySkeletonId($id);
+	public function findAllByParentId($id) {
+	   return $this->getRepo()->findAllByParentId($id);
 	} // /findAllBySkeletonById
 
 

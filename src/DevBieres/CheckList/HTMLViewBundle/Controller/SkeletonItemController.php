@@ -50,7 +50,7 @@ class SkeletonItemController extends EntityController
 		 */
 		public function listItemsAction($id) {
 				// List the actions
-				$list = $this->getService()->findAllBySkeletonId($id);
+				$list = $this->getService()->findAllByParentId($id);
 				// Return
 				return array('list'=> $list);
 		} // /listItems

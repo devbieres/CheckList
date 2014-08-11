@@ -26,20 +26,30 @@ use Symfony\Component\Validator\Constraints as Assert;
 use DevBieres\CommonBundle\Entity\EntityBase;
 
 /**
- * Base class for a skeleton of check list
- * @ORM\Entity(repositoryClass="DevBieres\CheckList\BaseBundle\Repository\SkeletonRepository")
+ * Base class for a check list
+ * @ORM\Entity(repositoryClass="DevBieres\CheckList\BaseBundle\Repository\CheckListRepository")
  */
-class Skeleton extends EntityBase {
+class CheckList extends EntityBase {
 
 		/**
 		 * Owner
-		 * @ORM\ManyToOne(targetEntity="DevBieres\CommonUserBundle\Entity\User", inversedBy="definitions")
+		 * @ORM\ManyToOne(targetEntity="DevBieres\CommonUserBundle\Entity\User")
 		 * @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
 		 * @Assert\NotNull()
 		 */
 		private $owner;
 		public function getOwner() { return $this-owner; }
 		public function setOwner($value) { $this->owner = $value; }
+
+		/**
+		 * Skeleton
+		 * @ORM\ManyToOne(targetEntity="Skeleton")
+		 * @ORM\JoinColumn(name="skeleton_id", referencedColumnName="id")
+		 * @Assert\NotNull()
+		 */
+		private $skeleton;
+		public function getSkeleton() { return $this->skeleton;}
+		public function setSkeleton($value) { $this->skeleton = $value; }
 
 		/**
 		 * Label
@@ -61,19 +71,46 @@ class Skeleton extends EntityBase {
 
 		/**
 		 * A check list contains items that can contains items ...
-		 * @ORM\OneToMany(targetEntity="Skeleton", mappedBy="parent", cascade="remove")
+		 * @ORM\OneToMany(targetEntity="CheckList", mappedBy="parent", cascade="remove")
 		 * */
 		private $items;
 		public function getItems() { return $this->items; }
 
 		/**
 		 * Parent ? May be null if the node is root
-		 * @ORM\ManyToOne(targetEntity="Skeleton", inversedBy="items")
+		 * @ORM\ManyToOne(targetEntity="CheckList", inversedBy="items")
 		 * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true)
 		 */
 		private $parent;
 		public function getParent() { return $this->parent; }
 		public function setParent($value) { $this->parent = $value; }
+
+
+		/**
+		 * @ORM\Column(type="integer", nullable=false)
+		 * @Assert\NotNull()
+		 * @Assert\Ranger(min=0, max=2)
+		 */
+		private $state = CheckList::STATE_UNDONE;
+		public function getState() { return $this->state; }
+		public function setState() { $this->state = $value; }
+
+		public function isUndone() { return $this->getState()==CheckList::STATE_UNDONE; }
+		public function isPartial() { return $this->getState()==CheckList::STATE_PARTIAL; }
+		public function isDone() { return $this->getState()==CheckList::STATE_DONE; }
+
+		/**
+		 * Not done. Default value
+		 */
+		const STATE_UNDONE =  0;
+		/**
+		 * For items with sub items which some are done
+		 */
+		const STATE_PARTIAL = 1;
+		/**
+		 * DONE !! At least one things left ...
+		 */
+		const STATE_DONE = 2;
 
 		/**
 		 * Init the collection

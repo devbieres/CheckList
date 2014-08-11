@@ -40,10 +40,12 @@ class User extends BaseUser {
 	public function getId() { return $this->id; }
 	
 	/**
+	 * TODO : remove from this class
 	 *  @ORM\OneToMany(targetEntity="DevBieres\CheckList\BaseBundle\Entity\Skeleton", mappedBy="owner")
 	 */
 	private $skeletons;
 	public function getSkeletons() { return $this->skeletons; }
+
 
     public function __construct()
     {

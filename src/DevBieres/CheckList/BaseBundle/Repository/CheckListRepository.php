@@ -18,11 +18,11 @@ namespace DevBieres\CheckList\BaseBundle\Repository;
  * ----------------------------------------------------------------------------
 */
 
-class SkeletonRepository extends \Doctrine\ORM\EntityRepository
+class CheckListRepository extends \Doctrine\ORM\EntityRepository
 {
 
 		/**
-		 * Return all the definition by user
+		 * Return all the check list by user
 		 * @param int $user_id
 		 */
 		public function findAllByUser($user_id) {
@@ -30,13 +30,13 @@ class SkeletonRepository extends \Doctrine\ORM\EntityRepository
 				// Request
 				$q = $this->getEntityManager()
 						->createQueryBuilder()
-						->select('d')
-						->from('DevBieresCheckListBaseBundle:Skeleton', 'd')
+						->select('c')
+						->from('DevBieresCheckListBaseBundle:CheckList', 'c')
 						->innerJoin('d.owner','o')
 						->where('o.id = :oid')
 						->setParameter('oid', $user_id)
-						->andWhere('d.parent is null')
-						->orderBy('d.label','asc');
+						->andWhere('c.parent is null')
+						->orderBy('c.createdAt','asc');
 
 				// Return
 				return $q->getQuery()->execute();
@@ -44,20 +44,21 @@ class SkeletonRepository extends \Doctrine\ORM\EntityRepository
 
 
 		/**
-		 * Return all the function by skeleton id as parent
+		 * Return all the function by check list id as parent
+		 * Get the parents and the second descendants
 		 * @param int $id
 		 */
 		public function findAllByParentId($id) {
 				// Request
 				$q = $this->getEntityManager()
 						->createQueryBuilder()
-						->select('s','p','i')
-						->from('DevBieresCheckListBaseBundle:Skeleton', 's')
-						->innerJoin('s.parent', 'p')
-						->leftJoin('s.items', 'i')
+						->select('c','p','i')
+						->from('DevBieresCheckListBaseBundle:CheckList', 'c')
+						->innerJoin('c.parent', 'p')
+						->leftJoin('c.items', 'i')
 						->where('p.id = :parent_id')
 						->setParameter('parent_id', $id)
-						->orderBy('s.label', 'asc');
+						->orderBy('c.label', 'asc');
 
 				// Return
 				return $q->getQuery()->execute();
