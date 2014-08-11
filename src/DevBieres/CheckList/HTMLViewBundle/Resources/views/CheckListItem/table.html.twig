@@ -1,0 +1,33 @@
+{% if leaf is not defined %} {% set leaf = 0 %} {%endif%}
+
+<table class="table table-hover table-striped table-bordered" >
+    {% for i in list %}
+        <tr>
+            <td> 
+                <h5>
+                    {% if i.isDone() %} <s> {%endif%}
+                    {{ i }} 
+                    {% if i.isDone() %} </s> {%endif%}
+                </h5>
+            </td>
+            <td class=" one-action " >
+                 {% if leaf %}
+                    <button onClick="changeState({{ i.parent.id }}, {{ i.id }})" 
+                        class="btn btn-default" > 
+                          {% if i.isDone() %}  {{ 'check-square-o'|ico }} 
+                          {% else %} {{ 'square-o'|ico }}
+                          {% endif %}
+                   </button>
+                 {% endif %}
+            </td>
+        </tr>
+        {% if not leaf and i.items|length > 0 %}
+           <tr><td colspan="2">
+               {{ include('DevBieresCheckListHTMLViewBundle:CheckListItem:table.html.twig', { 'list':i.items, 'leaf':1 }) }}
+           </td></tr>
+        {% endif %}
+    {% else %}
+        <tr> <br/>{{ 'checklist_item.empty_list'|trans }} </tr>
+    {% endfor %}
+</table>
+

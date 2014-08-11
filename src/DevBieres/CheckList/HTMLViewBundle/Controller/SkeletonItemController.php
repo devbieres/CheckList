@@ -48,7 +48,7 @@ class SkeletonItemController extends EntityController
 		 * @param int $id
 		 * @Template()
 		 */
-		public function listItemsAction($id) {
+		public function listAction($id) {
 				// List the actions
 				$list = $this->getService()->findAllByParentId($id);
 				// Return
@@ -78,7 +78,7 @@ class SkeletonItemController extends EntityController
 
 		/**
 		 * @Route("/ajax/create/", name="skeleton_item_ajax_create")
-		 * Template("DevBieresCheckListHTMLViewBundle:SkeletonItem:listItems.html.twig")
+		 * Template("DevBieresCheckListHTMLViewBundle:SkeletonItem:list.html.twig")
 		 */
 		public function createAction(Request $request, $id) {
 
@@ -97,8 +97,8 @@ class SkeletonItemController extends EntityController
 				if($form->isValid()) {
 						$entity = $this->getService()->save($entity);
 						return $this->render(
-								'DevBieresCheckListHTMLViewBundle:SkeletonItem:listItems.html.twig',
-								$this->listItemsAction($this->getRootId($parent))
+								'DevBieresCheckListHTMLViewBundle:SkeletonItem:list.html.twig',
+								$this->listAction($this->getRootId($parent))
 						);
 				} else {
 						// TODO : translation
@@ -130,8 +130,8 @@ class SkeletonItemController extends EntityController
 				$this->getService()->delete($itemId);
 				// Return
 				return $this->render(
-								'DevBieresCheckListHTMLViewBundle:SkeletonItem:listItems.html.twig',
-								$this->listItemsAction($this->getRootId($parent))
+								'DevBieresCheckListHTMLViewBundle:SkeletonItem:list.html.twig',
+								$this->listAction($this->getRootId($parent))
 		    	);
 
 		} // deleteAction

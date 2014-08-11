@@ -41,13 +41,33 @@ class CheckListService extends BaseService
 	public function getDefinitionService() { return $this->srvDefinition; }
 	public function setDefinitionService($value) { $this->srvDefinition = $value; }
 
+	/**
+	 * Return all definition for an user
+	 * @param User $user
+	 * @return Collection or null (if user is null)
+	 */
+	public function findAllByUser($user) {
+			if($user) {
+			   // Direct call to the repo
+			   return $this->getRepo()->findAllByUser($user->getId());
+			} else { return null; }
+	} // /findAllByUser
+
+	/**
+	 * Return all for a root skeleton id
+	 * @param int $id
+	 * @return Collection or null (if user is null)
+	 */
+	public function findAllByParentId($id) {
+	   return $this->getRepo()->findAllByParentId($id);
+	} // /findAllBySkeletonById
 
 	/**
 	 * Create (save) and return a new check list created from the skeleton in parameters
 	 */
 	public function createFromSkeleton($skeleton) {
 			// Create a new CheckList
-			$ck = $this->getNewEntity();
+			$ck = $this->getNew();
 
 			// Copy
 			$ck->setLabel($skeleton->getLabel());
@@ -61,6 +81,9 @@ class CheckListService extends BaseService
 			// Save
 			$this->save($ck);
 
+		    // return
+			return $ck;
+
 	} // /createFromSkeleton
 
 
@@ -69,16 +92,19 @@ class CheckListService extends BaseService
 	 */
 	protected function copyItems($ck, $skeleton) {
 			// Loop
-			foreach($skeletons->getItems() as $i) {
+			foreach($skeleton->getItems() as $i) {
 					// New Entity
-					$c = $this->getNewEntity();
+					$c = $this->getNew();
 					$c->setParent($ck);
 					$c->setLabel($i->getLabel());
 					$c->setDescription($i->getDescription());
 					$c->setOwner($i->getOwner());
 
 					// Items
-					$c = $this->copyItems($c, $i);
+				    $c = $this->copyItems($c, $i);
+
+					// Add
+					$ck->addItem($c);
 
 			} // end loop
 
@@ -86,6 +112,26 @@ class CheckListService extends BaseService
 			return $ck;
 
 	} // /copyItems
+
+	/**
+	 * Change state of the item
+	 * @param $id interger id (must exist)
+	 * @return null or the changed state entity
+	 */
+	public function changeState($id) {
+			// Find
+			$entity = $this->findOneById($id);
+			if(! $entity) { return null;}
+
+			// Change state
+			$entity->changeState();
+
+			// Save
+			$this->save($entity);
+
+			// Return
+			return $entity;
+	} // /changeState
 
 }
 

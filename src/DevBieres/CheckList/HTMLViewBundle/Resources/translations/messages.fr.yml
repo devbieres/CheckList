@@ -1,10 +1,14 @@
 action:
    back: Retour
+checklist:
+    empty_list: Aucune check list ! Rien à faire ?
 common:
    form_error: Une ou des erreurs sont présentes dans le formulaire.
 main:
    definition:
       title: Définitions
+   checklist:
+      title: Check List
 skeleton:
    list: Action(s)
    empty_list: Aucune squelette. A vous de jouer !

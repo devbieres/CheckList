@@ -30,7 +30,11 @@ class MainController extends Controller
      * @Template()
      */
     public function indexAction()
-    {
+	{
+		    // #############################
+			// Skeleton
+			// #############################
+
 			// Service
 			$service = $this->get('dvb.ckl.skeleton');
 
@@ -48,8 +52,16 @@ class MainController extends Controller
 								'method' => 'POST'
 						)
 				);
+			// #############################
+			
+			// Check List
+			$checklists = $this->get('dvb.ckl.checklist')->findAllByUser($this->getUser());
 
 			// return
-			return array('skeletons' => $skeletons, 'form' => $form->createView());
+			return array(
+					'skeletons' => $skeletons, 
+					'form' => $form->createView(),
+					'checklists' => $checklists
+			);
     }
 }

@@ -19,11 +19,11 @@
                  </button>
             </td>
         </tr>
-            {% if not leaf and i.items|length > 0 %}
-               <tr><td colspan="2">
-                   {{ include('DevBieresCheckListHTMLViewBundle:SkeletonItem:table.html.twig', { 'list':i.items, 'leaf':1 }) }}
-               </td></tr>
-            {% endif %}
+        {% if not leaf and i.items|length > 0 %}
+           <tr><td colspan="2">
+               {{ include('DevBieresCheckListHTMLViewBundle:SkeletonItem:table.html.twig', { 'list':i.items, 'leaf':1 }) }}
+           </td></tr>
+        {% endif %}
     {% else %}
         <tr> <br/>{{ 'skeleton_item.empty_list'|trans }} </tr>
     {% endfor %}

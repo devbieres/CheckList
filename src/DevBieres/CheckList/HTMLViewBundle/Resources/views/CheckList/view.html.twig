@@ -1,0 +1,28 @@
+{% extends 'DevBieresCheckListHTMLViewBundle::layout.html.twig' %}
+
+{% block body %}
+<div class="row">
+   <div class="col-md-3" ><br/></div>
+   <div class="col-md-6" >
+        <h2>
+           {{ checklist.label }}
+           <div class="pull-right" >
+               <a href="{{path('main')}}" class="btn btn-default" > {{ 'action.back'|trans }} </a>
+           </div>
+        </h2>
+        <div id="list" >
+           {{ render(controller('DevBieresCheckListHTMLViewBundle:CheckListItem:list', { 'id' : checklist.id })) }}
+        </div>
+   </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+   {{ parent() }}
+   <script src="{{ asset('./bundles/devbiereschecklisthtmlview/js/checklistitem.js') }}" ></script>
+   <script>
+       var urlChangeState = "{{ path('checklist_item_ajax_change_state', { 'id':'__id__', 'itemId':'__item_id__' }) }}";
+   </script>
+{% endblock %}
+

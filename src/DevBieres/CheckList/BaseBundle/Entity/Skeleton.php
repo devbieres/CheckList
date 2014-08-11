@@ -38,7 +38,7 @@ class Skeleton extends EntityBase {
 		 * @Assert\NotNull()
 		 */
 		private $owner;
-		public function getOwner() { return $this-owner; }
+		public function getOwner() { return $this->owner; }
 		public function setOwner($value) { $this->owner = $value; }
 
 		/**

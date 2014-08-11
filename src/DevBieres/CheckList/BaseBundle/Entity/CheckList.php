@@ -71,7 +71,7 @@ class CheckList extends EntityBase {
 
 		/**
 		 * A check list contains items that can contains items ...
-		 * @ORM\OneToMany(targetEntity="CheckList", mappedBy="parent", cascade="remove")
+		 * @ORM\OneToMany(targetEntity="CheckList", mappedBy="parent", cascade={ "remove", "persist" })
 		 * */
 		private $items;
 		public function getItems() { return $this->items; }
@@ -89,15 +89,20 @@ class CheckList extends EntityBase {
 		/**
 		 * @ORM\Column(type="integer", nullable=false)
 		 * @Assert\NotNull()
-		 * @Assert\Ranger(min=0, max=2)
+		 * @Assert\Range(min=0, max=2)
 		 */
 		private $state = CheckList::STATE_UNDONE;
 		public function getState() { return $this->state; }
-		public function setState() { $this->state = $value; }
+		public function setState($value) { $this->state = $value; }
 
 		public function isUndone() { return $this->getState()==CheckList::STATE_UNDONE; }
 		public function isPartial() { return $this->getState()==CheckList::STATE_PARTIAL; }
 		public function isDone() { return $this->getState()==CheckList::STATE_DONE; }
+
+		public function changeState() {
+				if($this->isDone()) { $this->setState(CheckList::STATE_UNDONE); }
+				else { $this->setState(CheckList::STATE_DONE); }
+		} // /changeState
 
 		/**
 		 * Not done. Default value
@@ -124,4 +129,26 @@ class CheckList extends EntityBase {
 		 * */
 		public function __toString() { return $this->getLabel(); }
 
-} // /Skeleton
+    /**
+     * Add items
+     *
+     * @param \DevBieres\CheckList\BaseBundle\Entity\CheckList $items
+     * @return CheckList
+     */
+    public function addItem(\DevBieres\CheckList\BaseBundle\Entity\CheckList $items)
+    {
+        $this->items[] = $items;
+
+        return $this;
+    }
+
+    /**
+     * Remove items
+     *
+     * @param \DevBieres\CheckList\BaseBundle\Entity\CheckList $items
+     */
+    public function removeItem(\DevBieres\CheckList\BaseBundle\Entity\CheckList $items)
+    {
+        $this->items->removeElement($items);
+    }
+}

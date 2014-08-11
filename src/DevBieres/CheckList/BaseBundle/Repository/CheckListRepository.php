@@ -32,7 +32,7 @@ class CheckListRepository extends \Doctrine\ORM\EntityRepository
 						->createQueryBuilder()
 						->select('c')
 						->from('DevBieresCheckListBaseBundle:CheckList', 'c')
-						->innerJoin('d.owner','o')
+						->innerJoin('c.owner','o')
 						->where('o.id = :oid')
 						->setParameter('oid', $user_id)
 						->andWhere('c.parent is null')

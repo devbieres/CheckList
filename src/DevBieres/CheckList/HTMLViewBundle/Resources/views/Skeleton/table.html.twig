@@ -11,7 +11,7 @@
                  <a class="btn btn-default" href="{{ path('skeleton_edit', { 'id': i.id }) }}" > {{ 'edit'|ico }} </a>
                  <button class="btn btn-default" 
                     onClick='confirm("{{ 'message.confirm.delete'|trans }}", "{{ path('skeleton_delete', { 'id' : i.id } ) }}");' > {{ 'trash-o'|ico }} </button>
-                 <button class="btn btn-primary" > {{ 'play'|ico }} </button>
+                 <a href="{{ path('checklist_create_from_skeleton', { 'id':i.id }) }}" class="btn btn-primary" > {{ 'play'|ico }} </button>
             </td>
         </tr>
     {% else %}

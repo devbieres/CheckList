@@ -17,8 +17,10 @@
                     {{ include('DevBieresCheckListHTMLViewBundle:Skeleton:table.html.twig', { 'list' : skeletons }) }}
                </div> {# list definitions #}
                <div class="col-md-6" >
+                    <h2> {{ 'main.checklist.title'|trans }} </h2>
+                    {{ include('DevBieresCheckListHTMLViewBundle:CheckList:table.html.twig', { 'list' : checklists }) }}
                </div> {# running check-list #}
-         </div> {# user list #}
+         </div>
    </div> {# La zone centrale #}
 </div>
 
