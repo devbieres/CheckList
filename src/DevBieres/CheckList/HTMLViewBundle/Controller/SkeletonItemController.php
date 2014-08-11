@@ -85,7 +85,8 @@ class SkeletonItemController extends EntityController
 				// Get the new entity
 				$entity = $this->getService()->getNew();
 				$entity->setOwner($this->getUser());
-				$entity->setParent($this->getSkeletonService()->findOneById($id));
+				$parent = $this->getSkeletonService()->findOneById($id);
+				$entity->setParent($parent);
 				// Get the form
 			    $form = $this->createForm(
 					   $this->getService()->getForm(),
@@ -97,9 +98,10 @@ class SkeletonItemController extends EntityController
 						$entity = $this->getService()->save($entity);
 						return $this->render(
 								'DevBieresCheckListHTMLViewBundle:SkeletonItem:listItems.html.twig',
-								$this->listItemsAction($id)
+								$this->listItemsAction($this->getRootId($parent))
 						);
 				} else {
+						// TODO : translation
 						return new Response(
 								'Formulaire invalide', Response::HTTP_EXPECTATION_FAILED
 						);
@@ -108,17 +110,28 @@ class SkeletonItemController extends EntityController
 		} // /createAction
 
 		/**
+		 * Get the parent Id
+		 */
+		protected function getRootId($parent) {
+				// while
+				while($parent->getParent() != null) { $parent = $parent->getParent(); }
+				return $parent->getId();
+		}
+
+		/**
 		 * Delete Action
 		 * @Route("/ajax/delete/{itemId}", name="skeleton_item_ajax_delete")
 		 * @Method("POST")
 		 */
 		public function deleteAction($id, $itemId) {
+				// parent
+				$parent = $this->getService()->findOneById($id);
 				// Delete
 				$this->getService()->delete($itemId);
 				// Return
 				return $this->render(
 								'DevBieresCheckListHTMLViewBundle:SkeletonItem:listItems.html.twig',
-								$this->listItemsAction($id)
+								$this->listItemsAction($this->getRootId($parent))
 		    	);
 
 		} // deleteAction

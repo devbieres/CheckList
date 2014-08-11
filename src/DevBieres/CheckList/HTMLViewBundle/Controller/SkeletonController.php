@@ -74,7 +74,7 @@ class SkeletonController extends EntityController
 
 				// Get form
 				$form = $this->createForm(
-						$this->getService()->getNewForm(),
+						$this->getService()->getForm(),
 						$entity
 				); // /getform
 

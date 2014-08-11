@@ -32,6 +32,10 @@ class SkeletonRepository extends \Doctrine\ORM\EntityRepository
 						->createQueryBuilder()
 						->select('d')
 						->from('DevBieresCheckListBaseBundle:Skeleton', 'd')
+						->innerJoin('d.owner','o')
+						->where('o.id = :oid')
+						->setParameter('oid', $user_id)
+						->andWhere('d.parent is null')
 						->orderBy('d.label','asc');
 
 				// Return
@@ -47,9 +51,10 @@ class SkeletonRepository extends \Doctrine\ORM\EntityRepository
 				// Request
 				$q = $this->getEntityManager()
 						->createQueryBuilder()
-						->select('s')
+						->select('s','p','i')
 						->from('DevBieresCheckListBaseBundle:Skeleton', 's')
 						->innerJoin('s.parent', 'p')
+						->leftJoin('s.items', 'i')
 						->where('p.id = :parent_id')
 						->setParameter('parent_id', $id)
 						->orderBy('s.label', 'asc');

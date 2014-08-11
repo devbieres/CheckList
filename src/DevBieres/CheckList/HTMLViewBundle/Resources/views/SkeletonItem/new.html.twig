@@ -1,11 +1,13 @@
 {# Form #}
 {{ form_start(form, { 'attr' : { 'role' : 'form' , 'id':'form_skeleton_item_new', 'class':'' } }) }}
-    <div class="form-group col-md-10" >
+    <div class="form-group col-md-12" >
          {{form_widget(form.label, {'attr': {'class': 'form-control', 'placeholder':'Lalal' } }) }}
          {% if not form.label.vars.valid %}
              <p class="help-block alert-warning" >{{form_errors(form.label) }} </p>
          {% endif %}
     </div>
+    {#
     <a href="javascript:submit()" class="btn btn-primary" > {{ 'save'|ico }} </a>
     <a href="javascript:close({{ id }})" class="btn btn-default" > {{ 'arrow-left'|ico }} </a>
+    #}
 {{ form_end(form) }}

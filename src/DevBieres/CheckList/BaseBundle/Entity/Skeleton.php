@@ -35,6 +35,7 @@ class Skeleton extends EntityBase {
 		 * Owner
 		 * @ORM\ManyToOne(targetEntity="DevBieres\CommonUserBundle\Entity\User", inversedBy="definitions")
 		 * @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
+		 * @Assert\NotNull()
 		 */
 		private $owner;
 		public function getOwner() { return $this-owner; }

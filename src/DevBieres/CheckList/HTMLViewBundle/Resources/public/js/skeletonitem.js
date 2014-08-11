@@ -1,44 +1,33 @@
 /**
  * newSkeletonItem
  */
-function newSkeletonItem(id) {
+function onNewItem(id) {
      //alert(id);
 	 $.ajax({
 			 url:urlNew.replace("__id__", id),
 	         dataType:'html',
 	         success: function(data) {
-			    $('#newSubItem' + id).html(data);
-		        $('#newSubItem' + id).show();
+			    $('#skeleton_item_modal_content').html(data);
+		        $('#skeleton_item_modal').modal();
 			 } // /success
 	 });
 } // /newSkeletonItem
 
-/**
- * Create a new sub item
- */
-function newSubItem(id) {
-		$.ajax({
-				url: urlNewSubItem.replace('__id__', id),
-		        dataType:'html',
-		        success: function(data) {
-						$('#newSubItem'+id).html(data);
-						$('#newSubItem'+id).show();
-				}
-		});
-} // /newSubItem
 
 /**
  * Close
  * */
-function close(id) {
-		$('.newitem').hide();
-		$('.newitem').html('');
+function close() {
+		$('#skeleton_item_modal').modal('hide');
+		$('#skeleton_item_modal_content').html('');
 } // /close
 
 /**
  * Submit
  */
 function submit() {
+		// TODO : remove somewhere else
+		$('#skeleton_item_modal').modal('hide');
 		// Get the form
 		var $form = $('#form_skeleton_item_new').closest("form");
 		// Stop event

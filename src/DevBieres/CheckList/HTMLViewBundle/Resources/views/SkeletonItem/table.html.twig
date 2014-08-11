@@ -1,3 +1,5 @@
+{% if leaf is not defined %} {% set leaf = 0 %} {%endif%}
+
 <table class="table table-hover table-striped table-bordered" >
     {% for i in list %}
         <tr>
@@ -5,23 +7,25 @@
                 <h5>
                     {{ i }} 
                 </h5>
-                <div id="newSubItem{{ i.id }}" class="newitem" ></div>
             </td>
-            <td class="three-actions" >
-                 <button class="btn btn-default" 
-                    onClick="newSkeletonItem({{i.id}});" > {{ 'plus'|ico }}
-                 </button>
+            <td class="{% if leaf %} one-action {% else %} two-actions {% endif %}" >
+                 {% if not leaf %}
+                    <button class="btn btn-default" 
+                       onClick="onNewItem({{i.id}});" > {{ 'plus'|ico }}
+                    </button>
+                 {% endif %}
                  <button class="btn btn-default" 
                     onClick='del({{ i.parent.id }}, {{ i.id }});' > {{ 'trash-o'|ico }} 
                  </button>
             </td>
         </tr>
+            {% if not leaf and i.items|length > 0 %}
+               <tr><td colspan="2">
+                   {{ include('DevBieresCheckListHTMLViewBundle:SkeletonItem:table.html.twig', { 'list':i.items, 'leaf':1 }) }}
+               </td></tr>
+            {% endif %}
     {% else %}
         <tr> <br/>{{ 'skeleton_item.empty_list'|trans }} </tr>
     {% endfor %}
 </table>
 
-<script>
-   var urlDel = "{{ path('skeleton_item_ajax_delete', { 'id':'__id__', 'itemId':'__item_id__' }) }}";
-   var urlNewSubItem = "{{ path('skeleton_item_ajax_new', { 'id':'__id__' } ) }}";
-</script>

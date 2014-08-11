@@ -1,3 +1,5 @@
+action:
+   back: Retour
 common:
    form_error: Une ou des erreurs sont présentes dans le formulaire.
 main:
