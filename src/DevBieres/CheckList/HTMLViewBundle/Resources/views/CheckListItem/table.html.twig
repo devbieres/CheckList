@@ -2,24 +2,26 @@
 
 <table class="table table-hover table-striped table-bordered" >
     {% for i in list %}
-        <tr>
+        <tr class="{% if not leaf %} {{ i.state | statecssclass }} {% endif %}">
             <td> 
                 <h5>
-                    {% if i.isDone() %} <s> {%endif%}
-                    {{ i }} 
-                    {% if i.isDone() %} </s> {%endif%}
+                    {% if leaf and i.isDone() %} <s> {%endif%} {{ i }} {% if leaf and i.isDone() %} </s> {% endif %}
                 </h5>
             </td>
-            <td class=" one-action " >
-                 {% if leaf %}
+            {% if leaf %}
+               <td class=" one-action " >
                     <button onClick="changeState({{ i.parent.id }}, {{ i.id }})" 
                         class="btn btn-default" > 
                           {% if i.isDone() %}  {{ 'check-square-o'|ico }} 
                           {% else %} {{ 'square-o'|ico }}
                           {% endif %}
                    </button>
-                 {% endif %}
-            </td>
+                </td>
+             {% else %}
+                <td class="one-action" >
+                     <h4> {{ i.state | stateimage | ico }} </h4>
+                </td>
+             {% endif %}
         </tr>
         {% if not leaf and i.items|length > 0 %}
            <tr><td colspan="2">

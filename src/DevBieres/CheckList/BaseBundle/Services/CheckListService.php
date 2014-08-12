@@ -22,6 +22,8 @@ namespace DevBieres\CheckList\BaseBundle\Services;
 use DevBieres\CommonBundle\Services\EntityService as BaseService;
 //use DevBieres\CommonBundle\Services\IEntityFormService;
 
+use DevBieres\CheckList\BaseBundle\Entity\CheckList;
+
 /**
  * Service class for the check list definition
  */
@@ -114,11 +116,14 @@ class CheckListService extends BaseService
 	} // /copyItems
 
 	/**
-	 * Change state of the item
+	 * Change state of the item and update its parents (if needed)
 	 * @param $id interger id (must exist)
 	 * @return null or the changed state entity
 	 */
 	public function changeState($id) {
+			// #####################
+			// Manage item
+			// #####################
 			// Find
 			$entity = $this->findOneById($id);
 			if(! $entity) { return null;}
@@ -129,9 +134,39 @@ class CheckListService extends BaseService
 			// Save
 			$this->save($entity);
 
+			//#####################
+			// Parent
+			//#####################
+			if($entity->getParent()) {
+			   $this->updateParentState($entity->getParent());
+			}
+
 			// Return
 			return $entity;
 	} // /changeState
+
+	/**
+	 * Update the state of the entity by checking son's state
+	 **/
+	protected function updateParentState($parent) {
+			// Get children's state
+			$states = $this->getRepo()->findAllChildrenState($parent->getId());
+
+			//var_dump($states);
+			// If only one line ==> same states so directly takes the states
+			// if two lines ==> running
+			if(count($states) == 1) { $parent->setState($states[0]['state']); }
+			else { $parent->setState(CheckList::STATE_PARTIAL); }
+
+			// save
+			$this->save($parent);
+
+			// Following
+			if($parent->getParent()) {
+			   $this->updateParentState($parent->getParent());
+			}
+
+	} // /updateParent
 
 }
 

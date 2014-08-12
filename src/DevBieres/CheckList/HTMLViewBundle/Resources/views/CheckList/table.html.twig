@@ -1,6 +1,6 @@
 <table class="table table-hover table-striped table-bordered" >
     {% for i in list %}
-        <tr>
+        <tr class="{{ i.state | statecssclass }}" >
             <td> 
                 <h4>
                     {{ i }} <br/>

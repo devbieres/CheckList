@@ -63,4 +63,22 @@ class CheckListRepository extends \Doctrine\ORM\EntityRepository
 				// Return
 				return $q->getQuery()->execute();
 		} // /findAllBySkeletonId
+
+		/**
+		 * Return states and number for the chidren of id (parent_id)
+		 * @param int $id parent id
+		 */
+		public function findAllChildrenState($id) {
+				// SQL
+				$sql =" SELECT c.state, count(c.state) FROM DevBieresCheckListBaseBundle:CheckList c 
+						    INNER JOIN c.parent p WHERE p.id = :id GROUP BY c.state";
+
+				// Create the query
+				$em = $this->getEntityManager();
+				$q = $em->createQuery($sql)
+						->setParameter('id', $id);
+				
+				// return
+				return $q->execute();
+		} // /findAllChildrenState
 }

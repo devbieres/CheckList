@@ -13,3 +13,13 @@ services:
        calls:
           - [ setEM, [ @doctrine.orm.entity_manager ] ]
 
+
+   dvb.ckl.state_image_extension:
+       class: DevBieres\CheckList\BaseBundle\Twig\Extension\StateImageExtension
+       tags:
+          - { name: twig.extension }
+
+   dvb.ckl.state_css_class_extension:
+       class: DevBieres\CheckList\BaseBundle\Twig\Extension\StateCssClassExtension
+       tags:
+          - { name: twig.extension }
