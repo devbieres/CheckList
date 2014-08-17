@@ -76,5 +76,14 @@ abstract class BaseTestCase extends WebTestCase {
     return $this->getContainer()->get($name);
   }
 
+  	/**
+	 * Delete based on string
+	 */
+	protected function delete($sql) {
+		// Create & Execute
+			$this->getEntityManager()->getConnection()->exec(
+					sprintf('DELETE FROM %s WHERE 1', $sql)
+			);
+    } // /delete
 
 } // Fin de BaseTestCase

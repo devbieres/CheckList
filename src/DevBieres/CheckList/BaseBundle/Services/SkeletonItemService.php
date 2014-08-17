@@ -34,6 +34,16 @@ class SkeletonItemService extends BaseService
     protected function getFullEntityName() { return 'DevBieres\CheckList\BaseBundle\Entity\Skeleton'; }
 
 	/**
+	 * Return all for a parent skeleton
+	 */
+	public function findAllByParent($parent) {
+			if($parent) {
+					return $this->findAllByParentId($parent->getId());
+			} 
+			return null;
+	} // /findAllByParent
+
+	/**
 	 * Return all for a root skeleton id
 	 * @param int $id
 	 * @return Collection or null (if user is null)

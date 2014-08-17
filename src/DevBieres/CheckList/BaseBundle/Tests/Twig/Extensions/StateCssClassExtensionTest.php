@@ -1,5 +1,5 @@
 <?php
-namespace DevBieres\CheckList\BaseBundle\Services;
+namespace DevBieres\CheckList\BaseBundle\Tests\Twig\Extension;
 
 /*
  * ----------------------------------------------------------------------------
@@ -18,41 +18,20 @@ namespace DevBieres\CheckList\BaseBundle\Services;
  * Plus d'infos : http://fr.wikipedia.org/wiki/Beerware
  * ----------------------------------------------------------------------------
  */
+use DevBieres\CheckList\BaseBundle\Twig\Extension\StateCssClassExtension;
 
-use DevBieres\CommonBundle\Services\EntityService as BaseService;
-//use DevBieres\CommonBundle\Services\IEntityFormService;
+class StateCssClassExtensionTest extends \PHPUnit_Framework_TestCase {
 
-/**
- * Service class for the check list definition
- */
-class SkeletonService extends BaseService
-{
+		public function testGetStateCssClassFilter() {
 
-	/**
-     * FullName
-	 */
-    protected function getFullEntityName() { return 'DevBieres\CheckList\BaseBundle\Entity\Skeleton'; }
+				$ext = new StateCssClassExtension();
 
-	/**
-	 * Return all definition for an user (only the first level)
-	 * @param User $user
-	 * @return Collection or null (if user is null)
-	 */
-	public function findAllByUser($user) {
-			if($user) {
-			   // Direct call to the repo
-			   return $this->getRepo()->findAllByUser($user->getId());
-			} else { return null; }
-	} // /findAllByUser
+				$this->assertEquals($ext->getStateCssClassFilter(0), "danger");
+				$this->assertEquals($ext->getStateCssClassFilter(1), "warning");
+				$this->assertEquals($ext->getStateCssClassFilter(2), "success");
 
 
-	/**
-	 * Return the form for a creation
-	 */
-	public function getForm() {
-			return new \DevBieres\CheckList\BaseBundle\Form\NewSkeletonType();
-	}
+		} // /testGetStateCssClassFilter
 
 
-} // /SkeletonService
-
+} // /StateCssClassExtensionTest

@@ -56,6 +56,14 @@ class CheckListService extends BaseService
 	} // /findAllByUser
 
 	/**
+	 * Return all items for a parent
+	 */
+	public function findAllByParent($parent) {
+			if($parent) { return $this->findAllByParentId($parent->getId()); }
+			return null;
+	} // /findAllByParent
+
+	/**
 	 * Return all for a root skeleton id
 	 * @param int $id
 	 * @return Collection or null (if user is null)
@@ -68,6 +76,9 @@ class CheckListService extends BaseService
 	 * Create (save) and return a new check list created from the skeleton in parameters
 	 */
 	public function createFromSkeleton($skeleton) {
+			// Check
+			if(! $skeleton) { return null; }
+
 			// Create a new CheckList
 			$ck = $this->getNew();
 

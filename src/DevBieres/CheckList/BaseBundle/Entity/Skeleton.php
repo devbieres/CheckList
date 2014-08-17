@@ -61,7 +61,7 @@ class Skeleton extends EntityBase {
 
 		/**
 		 * A check list contains items that can contains items ...
-		 * @ORM\OneToMany(targetEntity="Skeleton", mappedBy="parent", cascade="remove")
+		 * @ORM\OneToMany(targetEntity="Skeleton", mappedBy="parent", cascade={ "remove", "persist" })
 		 * */
 		private $items;
 		public function getItems() { return $this->items; }
@@ -87,4 +87,26 @@ class Skeleton extends EntityBase {
 		 * */
 		public function __toString() { return $this->getLabel(); }
 
+    /**
+     * Add items
+     *
+     * @param \DevBieres\CheckList\BaseBundle\Entity\Skeleton $items
+     * @return Skeleton
+     */
+    public function addItem(\DevBieres\CheckList\BaseBundle\Entity\Skeleton $items)
+    {
+        $this->items[] = $items;
+
+        return $this;
+    }
+
+    /**
+     * Remove items
+     *
+     * @param \DevBieres\CheckList\BaseBundle\Entity\Skeleton $items
+     */
+    public function removeItem(\DevBieres\CheckList\BaseBundle\Entity\Skeleton $items)
+    {
+        $this->items->removeElement($items);
+	}
 } // /Skeleton

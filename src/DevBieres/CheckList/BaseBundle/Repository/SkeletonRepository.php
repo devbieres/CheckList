@@ -22,7 +22,7 @@ class SkeletonRepository extends \Doctrine\ORM\EntityRepository
 {
 
 		/**
-		 * Return all the definition by user
+		 * Return all the definition by user (only the first level)
 		 * @param int $user_id
 		 */
 		public function findAllByUser($user_id) {
