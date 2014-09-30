@@ -11,3 +11,5 @@
 /composer.phar
 /cov
 /coverage
+*.sw*
+/temp.txt
